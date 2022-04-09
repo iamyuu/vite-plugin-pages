@@ -3,11 +3,11 @@ import { PageContext } from '../src/context'
 
 const sensitivity = process.platform === 'win32' ? 'base' : 'variant'
 
-function deepSortArray(arr: any[], react?: boolean) {
-  const key = react ? 'element' : 'component'
+function deepSortArray(arr: any[]) {
+  const key = 'element'
   arr.forEach((i) => {
     if (i.children)
-      i.children = deepSortArray(i.children, react)
+      i.children = deepSortArray(i.children)
   })
   if (arr.length === 1) return arr
   return arr.sort((a, b) => {
@@ -16,67 +16,13 @@ function deepSortArray(arr: any[], react?: boolean) {
 }
 
 describe('Generate routes', () => {
-  test('vue - async mode match snapshot', async() => {
-    const ctx = new PageContext({
-      dirs: 'examples/vue/src/pages',
-      extendRoute(route) {
-        if (route.name === 'about')
-          route.props = (route: any) => ({ query: route.query.q })
-      },
-      onRoutesGenerated(routes) {
-        // eslint-disable-next-line no-console
-        routes = deepSortArray(routes)
-        expect(routes).toMatchSnapshot('routes')
-        return routes
-      },
-    })
-    await ctx.searchGlob()
-    const routes = await ctx.resolveRoutes()
-
-    expect(routes).toMatchSnapshot('client code')
-  })
-
-  test('vue - sync mode match snapshot', async() => {
-    const ctx = new PageContext({
-      dirs: 'examples/vue/src/pages',
-      importMode: 'sync',
-      onRoutesGenerated(routes) {
-        // eslint-disable-next-line no-console
-        routes = deepSortArray(routes)
-        expect(routes).toMatchSnapshot('routes')
-        return routes
-      },
-    })
-    await ctx.searchGlob()
-    const routes = await ctx.resolveRoutes()
-
-    expect(routes).toMatchSnapshot('client code')
-  })
-
   test('react - match snapshot', async() => {
     const ctx = new PageContext({
-      dirs: 'examples/react/src/pages',
+      dirs: 'examples/next-style/src/pages',
       resolver: 'react',
       onRoutesGenerated(routes) {
         // eslint-disable-next-line no-console
-        routes = deepSortArray(routes, true)
-        expect(routes).toMatchSnapshot('routes')
-        return routes
-      },
-    })
-    await ctx.searchGlob()
-    const routes = await ctx.resolveRoutes()
-
-    expect(routes).toMatchSnapshot('client code')
-  })
-
-  test('solid - match snapshot', async() => {
-    const ctx = new PageContext({
-      dirs: 'examples/solid/src/pages',
-      resolver: 'solid',
-      onRoutesGenerated(routes) {
-        // eslint-disable-next-line no-console
-        routes = deepSortArray(routes, true)
+        routes = deepSortArray(routes)
         expect(routes).toMatchSnapshot('routes')
         return routes
       },
@@ -92,6 +38,7 @@ describe('Generate routes', () => {
       const ctx = new PageContext({
         dirs: 'examples/nuxt-style/src/pages',
         routeStyle: 'nuxt',
+        resolver: 'react',
         onRoutesGenerated(routes) {
         // eslint-disable-next-line no-console
           routes = deepSortArray(routes)
@@ -112,7 +59,7 @@ describe('Generate routes', () => {
         resolver: 'react',
         onRoutesGenerated(routes) {
         // eslint-disable-next-line no-console
-          routes = deepSortArray(routes, true)
+          routes = deepSortArray(routes)
           expect(routes).toMatchSnapshot('routes')
           return routes
         },

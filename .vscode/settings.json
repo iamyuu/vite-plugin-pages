@@ -4,4 +4,7 @@
     "source.fixAll.eslint": true
   },
   "prettier.enable": false,
+  "search.exclude": {
+    "**/examples": true,
+  }
 }

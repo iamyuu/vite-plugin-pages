@@ -4,8 +4,8 @@ import { resolveOptions } from '../src/options'
 import { getPageDirs, getPageFiles } from '../src/files'
 
 const options = resolveOptions({}, process.cwd())
-const testpages = 'examples/vue/src/pages'
-const testDeeppages = 'examples/vue/src/features'
+const testpages = 'examples/next-style/src/pages'
+const testDeeppages = 'examples/next-style/src/features'
 
 describe('Get files', () => {
   test('pages', async() => {

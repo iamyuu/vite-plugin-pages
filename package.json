@@ -27,79 +27,51 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./client": {
-      "types": "./client.d.ts"
-    },
     "./client-react": {
       "types": "./client-react.d.ts"
-    },
-    "./client-solid": {
-      "types": "./client-solid.d.ts"
     }
   },
   "files": [
     "dist",
-    "client.d.ts",
     "client-react.d.ts",
-    "client-solid.d.ts",
     "LICENSE"
   ],
   "homepage": "https://github.com/hannoeru/vite-plugin-pages",
   "bugs": "https://github.com/hannoeru/vite-plugin-pages/issues",
   "scripts": {
     "dev": "npm run build -- --watch --ignore-watch examples",
-    "build": "tsup",
-    "dev:vue": "pnpm --filter vue dev",
-    "dev:react": "pnpm --filter react dev",
-    "build:vue": "pnpm --filter vue build",
-    "build:react": "pnpm --filter react build",
+    "build": "tsup src/index.ts --dts --format esm,cjs --no-splitting",
+    "dev:next": "pnpm --filter next-style dev",
+    "dev:nuxt": "pnpm --filter nuxt-style dev",
+    "dev:remix": "pnpm --filter remix-style dev",
     "prepublishOnly": "npm run build",
     "release": "bumpp --commit --tag --push",
     "publish:ci": "esno scripts/publish.ts",
     "test": "vitest",
-    "test:ui": "vitest --ui",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "type-check": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "@vue/compiler-sfc": ">=3",
-    "vite": ">=2"
-  },
-  "peerDependenciesMeta": {
-    "@vue/compiler-sfc": {
-      "optional": true
-    }
-  },
   "dependencies": {
-    "@types/debug": "^4.1.7",
-    "debug": "^4.3.4",
     "deep-equal": "^2.0.5",
-    "fast-glob": "^3.2.11",
-    "json5": "^2.2.1",
-    "local-pkg": "^0.4.1",
-    "picocolors": "^1.0.0",
-    "yaml": "^2.0.0-11"
+    "fast-glob": "^3.2.11"
   },
   "devDependencies": {
     "@antfu/utils": "^0.5.0",
     "@hannoeru/eslint-config": "^0.7.6",
+    "@types/debug": "^4.1.7",
     "@types/deep-equal": "^1.0.1",
     "@types/glob-to-regexp": "^0.4.1",
     "@types/node": "^17.0.23",
-    "@vitest/ui": "^0.8.4",
-    "@vue/compiler-sfc": "^3.2.31",
     "bumpp": "^7.1.1",
     "cross-env": "^7.0.3",
+    "debug": "^4.3.4",
     "eslint": "^8.12.0",
     "esno": "^0.14.1",
-    "playwright": "^1.20.2",
     "react-router": "^6.3.0",
-    "solid-app-router": "^0.3.2",
     "tsup": "^5.12.4",
     "typescript": "^4.6.3",
     "vite": "^2.9.1",
-    "vitest": "^0.8.4",
-    "vue-router": "^4.0.14"
+    "vitest": "^0.8.4"
   }
 }

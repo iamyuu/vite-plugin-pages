@@ -6,8 +6,6 @@ export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 export type ImportMode = 'sync' | 'async'
 export type ImportModeResolver = (filepath: string, pluginOptions: ResolvedOptions) => ImportMode
 
-export type CustomBlock = Record<string, any>
-
 export type InternalPageResolvers = 'vue' | 'react' | 'solid'
 
 export interface PageOptions {
@@ -61,12 +59,6 @@ interface Options {
    */
   syncIndex: boolean
   /**
-   * Use Nuxt.js style route naming
-   * @default false
-   * @deprecated use `routeStyle` instead
-   */
-  nuxtStyle: boolean
-  /**
    * Routing style
    * @default false
    */
@@ -76,11 +68,6 @@ interface Options {
    * @default false
      */
   caseSensitive: boolean
-  /**
-   * Set the default route block parser, or use `<route lang=xxx>` in SFC route block
-   * @default 'json5'
-   */
-  routeBlockLang: 'json5' | 'json' | 'yaml' | 'yml'
   /**
    * Module id for routes import
    * @default '~pages'
@@ -109,16 +96,11 @@ interface Options {
    * @deprecated use `dirs` instead
    */
   pagesDir: string | (string | PageOptions)[]
-  /**
-   * Replace '[]' to '_' in bundle filename
-   * @deprecated issue #122
-   */
-  replaceSquareBrackets: never
 }
 
 export type UserOptions = Partial<Options>
 
-export interface ResolvedOptions extends Omit<Options, 'pagesDir' | 'replaceSquareBrackets' | 'nuxtStyle' | 'syncIndex' | 'moduleId'> {
+export interface ResolvedOptions extends Omit<Options, 'pagesDir' | 'syncIndex' | 'moduleId'> {
   /**
    * Resolves to the `root` value from Vite config.
    * @default config.root

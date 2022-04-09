@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import { slash, toArray } from '@antfu/utils'
 import { getPageDirs } from './files'
 
-import { ReactResolver, SolidResolver, VueResolver } from './resolvers'
+import { ReactResolver } from './resolvers'
 import { MODULE_IDS } from './constants'
 import type { ImportModeResolver, ResolvedOptions, UserOptions } from './types'
 
@@ -29,21 +29,16 @@ export const syncIndexResolver: ImportModeResolver = (filepath, options) => {
 }
 
 const getResolver = (originalResolver: UserOptions['resolver']) => {
-  let resolver = originalResolver || 'vue'
+  let resolver = originalResolver || 'react'
 
   if (typeof resolver !== 'string')
     return resolver
 
   switch (resolver) {
-  case 'vue':
-    resolver = VueResolver()
-    break
   case 'react':
     resolver = ReactResolver()
     break
-  case 'solid':
-    resolver = SolidResolver()
-    break
+
   default:
     throw new Error(`Unsupported resolver: ${resolver}`)
   }
@@ -53,7 +48,6 @@ const getResolver = (originalResolver: UserOptions['resolver']) => {
 export function resolveOptions(userOptions: UserOptions, viteRoot?: string): ResolvedOptions {
   const {
     dirs = userOptions.pagesDir || ['src/pages'],
-    routeBlockLang = 'json5',
     exclude = [],
     caseSensitive = false,
     syncIndex = true,
@@ -74,7 +68,7 @@ export function resolveOptions(userOptions: UserOptions, viteRoot?: string): Res
 
   const resolvedDirs = resolvePageDirs(dirs, root, exclude)
 
-  const routeStyle = userOptions.nuxtStyle ? 'nuxt' : userOptions.routeStyle || 'next'
+  const routeStyle = userOptions.routeStyle || 'next'
 
   const moduleIds = userOptions.moduleId
     ? [userOptions.moduleId]
@@ -83,7 +77,6 @@ export function resolveOptions(userOptions: UserOptions, viteRoot?: string): Res
   const resolvedOptions: ResolvedOptions = {
     dirs: resolvedDirs,
     routeStyle,
-    routeBlockLang,
     moduleIds,
     root,
     extensions,
